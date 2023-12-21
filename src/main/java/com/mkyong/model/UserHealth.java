@@ -15,7 +15,27 @@ import java.time.LocalDate;
 public class UserHealth {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String id;
+    private Long id;
+
+    private Long userId;
+    private String pressure;
+
+    private String headAche;
+
+    public UserHealth() {
+    }
+
+    public UserHealth(Long name) {
+        this.id = name;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     public String getPressure() {
         return pressure;
@@ -33,22 +53,11 @@ public class UserHealth {
         this.headAche = headAche;
     }
 
-    private String pressure;
-
-    private String headAche;
-
-    public UserHealth() {
-    }
-
-    public UserHealth(String name) {
-        this.id = name;
-    }
-
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String name) {
+    public void setId(Long name) {
         this.id = name;
     }
 }

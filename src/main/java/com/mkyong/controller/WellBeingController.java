@@ -1,32 +1,81 @@
 package com.mkyong.controller;
 
+import com.fasterxml.uuid.Generators;
 import com.mkyong.model.UserHealth;
 import com.mkyong.service.WellBeingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 @RestController()
-@RequestMapping("/android/")
-public class WellBeingController{
+@RequestMapping("/android")
+public class WellBeingController {
     @Autowired
     private WellBeingService service;
 
 
-//    @GetMapping("getDTO")
-//    public DTO getAndroid(@RequestParam(name = "pressure") String pressure,
-//                          @RequestParam(name = "headAche") String headAche) throws Exception {
-//        DTO dto=service.useOfTheDTO(pressure,headAche);
-//        return dto;
-//    }
-
-    @PostMapping("postDTO")
-    public UserHealth postPlace(@RequestBody Body body) throws Exception {
-        UserHealth dto=service.createDTO(body.pressure, body.headAche);
+    @GetMapping("getDTO")
+    public UserHealth getDTO(@RequestParam(name = "pressure") String pressure,
+                             @RequestParam(name = "headAche") String headAche,
+                             @RequestParam(name = "id") Long userId) throws Exception {
+        UserHealth dto = service.useOfTheDTO(pressure, headAche,userId);
         return dto;
     }
-    static class Body{
+
+    @ResponseStatus(HttpStatus.CREATED) // 201
+    @PostMapping("postDTO")
+    public UserHealth postDTO(@RequestBody UserHealthDto body) throws Exception {
+        UserHealth userHealth=getUserHealth(body);
+        return service.createDTO(userHealth);
+    }
+
+    @GetMapping
+    public List<UserHealth> findAll() {
+        return service.findAll();
+    }
+
+    @GetMapping("getById/{id}")
+    public Optional<UserHealth> findById(@RequestParam(name = "id") Long id) {
+        return service.findById(id);
+    }
+
+    @PutMapping("putUpdateTable")
+    public UserHealth update(@RequestBody UserHealthDto body) throws Exception {
+        UserHealth userHealth=getUserHealth(body);
+        return service.createDTO(userHealth);
+    }
+
+
+    @ResponseStatus(HttpStatus.NO_CONTENT) // 204
+    @DeleteMapping("deleteById/{id}")
+    public void deleteById(@PathVariable Long id) {
+        service.deleteById(id);
+    }
+
+    @GetMapping("/findByUserId/{id}")
+    public List<UserHealth> findByUserId(@PathVariable Long id) {
+        return service.findByUserId(id);
+    }
+
+    static class UserHealthDto {
+        public Long userId;
         public String pressure;
         public String headAche;
+    }
+
+    public UserHealth getUserHealth(UserHealthDto body) {
+        UserHealth userHealth = new UserHealth();
+        userHealth.setId(Generators.timeBasedGenerator().generate().node());
+        userHealth.setUserId(body.userId);
+        userHealth.setPressure(body.pressure);
+        userHealth.setHeadAche(body.headAche);
+        return userHealth;
     }
 }
 
