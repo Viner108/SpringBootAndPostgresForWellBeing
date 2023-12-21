@@ -21,12 +21,21 @@ public class UserHealth {
     private String pressure;
 
     private String headAche;
+    private LocalDate date;
 
     public UserHealth() {
     }
 
     public UserHealth(Long name) {
         this.id = name;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public Long getUserId() {

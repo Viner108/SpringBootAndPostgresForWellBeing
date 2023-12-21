@@ -20,7 +20,7 @@ public class WellBeingService {
         return repository.save(userHealth);
 
     }
-    public UserHealth  useOfTheDTO(String pressure, String headAche,Long userId){
+    public UserHealth  useOfTheDTO(String pressure, String headAche,Long userId,LocalDate date){
         UserHealth userHealth=new UserHealth();
         return userHealth;
     }
@@ -47,6 +47,7 @@ public class WellBeingService {
     public List<UserHealth> findByUserId(Long userId) {
         return repository.findByUserId(userId);
     }
-
-
+    public List<UserHealth> findByDate(LocalDate date1,LocalDate date2) {
+        return repository.findByDate(date1, date2);
+    }
 }

@@ -9,9 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @RestController()
 @RequestMapping("/android")
@@ -23,15 +23,16 @@ public class WellBeingController {
     @GetMapping("getDTO")
     public UserHealth getDTO(@RequestParam(name = "pressure") String pressure,
                              @RequestParam(name = "headAche") String headAche,
-                             @RequestParam(name = "id") Long userId) throws Exception {
-        UserHealth dto = service.useOfTheDTO(pressure, headAche,userId);
+                             @RequestParam(name = "id") Long userId,
+                             @RequestParam(name = "date") LocalDate date) throws Exception {
+        UserHealth dto = service.useOfTheDTO(pressure, headAche, userId, date);
         return dto;
     }
 
     @ResponseStatus(HttpStatus.CREATED) // 201
     @PostMapping("postDTO")
     public UserHealth postDTO(@RequestBody UserHealthDto body) throws Exception {
-        UserHealth userHealth=getUserHealth(body);
+        UserHealth userHealth = getUserHealth(body);
         return service.createDTO(userHealth);
     }
 
@@ -47,7 +48,7 @@ public class WellBeingController {
 
     @PutMapping("putUpdateTable")
     public UserHealth update(@RequestBody UserHealthDto body) throws Exception {
-        UserHealth userHealth=getUserHealth(body);
+        UserHealth userHealth = getUserHealth(body);
         return service.createDTO(userHealth);
     }
 
@@ -58,15 +59,23 @@ public class WellBeingController {
         service.deleteById(id);
     }
 
-    @GetMapping("/findByUserId/{id}")
+    @GetMapping("findByUserId/{id}")
     public List<UserHealth> findByUserId(@PathVariable Long id) {
         return service.findByUserId(id);
+    }
+
+    @GetMapping("findByDate/{beforedate1}/{date2}")
+    public List<UserHealth> findByDate(
+            @PathVariable @DateTimeFormat(pattern = "yyyy.MM.dd") LocalDate beforedate1,
+            @PathVariable @DateTimeFormat(pattern = "yyyy.MM.dd") LocalDate date2) {
+        return service.findByDate(beforedate1, date2);
     }
 
     static class UserHealthDto {
         public Long userId;
         public String pressure;
         public String headAche;
+        public String date;
     }
 
     public UserHealth getUserHealth(UserHealthDto body) {
@@ -75,6 +84,9 @@ public class WellBeingController {
         userHealth.setUserId(body.userId);
         userHealth.setPressure(body.pressure);
         userHealth.setHeadAche(body.headAche);
+        DateTimeFormatter format= DateTimeFormatter.ofPattern("yyyy.MM.dd");
+        LocalDate localDate=LocalDate.parse(body.date,format);
+        userHealth.setDate(localDate);
         return userHealth;
     }
 }
