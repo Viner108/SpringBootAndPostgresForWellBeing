@@ -55,10 +55,15 @@ public class WellBeingController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT) // 204
     @DeleteMapping("deleteById/{id}")
+    public void deleteByUserId(@PathVariable Long id) {
+        service.deleteByUserId(id);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT) // 204
+    @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id) {
         service.deleteById(id);
     }
-
     @GetMapping("findByUserId/{id}")
     public List<UserHealth> findByUserId(@PathVariable Long id) {
         return service.findByUserId(id);
@@ -72,6 +77,7 @@ public class WellBeingController {
     }
 
     static class UserHealthDto {
+        private Long id;
         public Long userId;
         public String pressure;
         public String headAche;

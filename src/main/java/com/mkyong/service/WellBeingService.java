@@ -1,16 +1,13 @@
 package com.mkyong.service;
 
-import com.mkyong.model.Book;
 import com.mkyong.model.UserHealth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.mkyong.repository.UserHealthRepository;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class WellBeingService {
@@ -34,7 +31,7 @@ public class WellBeingService {
     }
 
 
-    public void deleteById(Long id) {
+    public void deleteByUserId(Long id) {
         List<UserHealth> all = repository.findAll();
         for (UserHealth userHealth : all) {
             if(userHealth.getUserId()==id){
@@ -42,6 +39,9 @@ public class WellBeingService {
             }
         }
 
+    }
+    public void deleteById(Long id) {
+        repository.deleteById(id);
     }
 
     public List<UserHealth> findByUserId(Long userId) {
