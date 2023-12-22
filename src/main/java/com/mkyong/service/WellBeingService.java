@@ -50,4 +50,11 @@ public class WellBeingService {
     public List<UserHealth> findByDate(LocalDate date1,LocalDate date2) {
         return repository.findByDate(date1, date2);
     }
+
+    public UserHealth updateDTO(UserHealth userHealth) throws Exception {
+        Long id=userHealth.getId();
+        deleteById(userHealth.getId());
+        UserHealth userHealth1=createDTO(userHealth);
+        return userHealth1;
+    }
 }

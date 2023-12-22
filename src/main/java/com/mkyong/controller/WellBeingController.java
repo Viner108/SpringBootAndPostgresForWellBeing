@@ -32,7 +32,7 @@ public class WellBeingController {
     @ResponseStatus(HttpStatus.CREATED) // 201
     @PostMapping("postDTO")
     public UserHealth postDTO(@RequestBody UserHealthDto body) throws Exception {
-        UserHealth userHealth = getUserHealth(body);
+        UserHealth userHealth = getUserHealth(body,null);
         return service.createDTO(userHealth);
     }
 
@@ -46,10 +46,10 @@ public class WellBeingController {
         return service.findById(id);
     }
 
-    @PutMapping("putUpdateTable")
-    public UserHealth update(@RequestBody UserHealthDto body) throws Exception {
-        UserHealth userHealth = getUserHealth(body);
-        return service.createDTO(userHealth);
+    @PutMapping("putUpdateTable/{id}")
+    public UserHealth update(@RequestBody UserHealthDto body,@PathVariable Long id) throws Exception {
+        UserHealth userHealth = getUserHealth(body,id);
+        return service.updateDTO(userHealth);
     }
 
 
@@ -64,6 +64,7 @@ public class WellBeingController {
     public void deleteById(@PathVariable Long id) {
         service.deleteById(id);
     }
+
     @GetMapping("findByUserId/{id}")
     public List<UserHealth> findByUserId(@PathVariable Long id) {
         return service.findByUserId(id);
@@ -84,14 +85,18 @@ public class WellBeingController {
         public String date;
     }
 
-    public UserHealth getUserHealth(UserHealthDto body) {
+    public UserHealth getUserHealth(UserHealthDto body,Long id) {
         UserHealth userHealth = new UserHealth();
-        userHealth.setId(Generators.timeBasedGenerator().generate().node());
+        if(id!=null){
+            userHealth.setId(id);
+        }else {
+            userHealth.setId(Generators.timeBasedGenerator().generate().node());
+        }
         userHealth.setUserId(body.userId);
         userHealth.setPressure(body.pressure);
         userHealth.setHeadAche(body.headAche);
-        DateTimeFormatter format= DateTimeFormatter.ofPattern("yyyy.MM.dd");
-        LocalDate localDate=LocalDate.parse(body.date,format);
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+        LocalDate localDate = LocalDate.parse(body.date, format);
         userHealth.setDate(localDate);
         return userHealth;
     }
