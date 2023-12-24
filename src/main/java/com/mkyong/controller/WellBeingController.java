@@ -38,11 +38,13 @@ public class WellBeingController {
 
     @GetMapping
     public List<UserHealth> findAll() {
+
         return service.findAll();
     }
 
     @GetMapping("getById/{id}")
     public Optional<UserHealth> findById(@RequestParam(name = "id") Long id) {
+
         return service.findById(id);
     }
 
@@ -67,13 +69,14 @@ public class WellBeingController {
 
     @GetMapping("findByUserId/{id}")
     public List<UserHealth> findByUserId(@PathVariable Long id) {
+
         return service.findByUserId(id);
     }
 
     @GetMapping("findByDate/{beforedate1}/{date2}")
     public List<UserHealth> findByDate(
-            @PathVariable @DateTimeFormat(pattern = "yyyy.MM.dd") LocalDate beforedate1,
-            @PathVariable @DateTimeFormat(pattern = "yyyy.MM.dd") LocalDate date2) {
+            @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate beforedate1,
+            @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date2) {
         return service.findByDate(beforedate1, date2);
     }
 
@@ -95,7 +98,7 @@ public class WellBeingController {
         userHealth.setUserId(body.userId);
         userHealth.setPressure(body.pressure);
         userHealth.setHeadAche(body.headAche);
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate localDate = LocalDate.parse(body.date, format);
         userHealth.setDate(localDate);
         return userHealth;
