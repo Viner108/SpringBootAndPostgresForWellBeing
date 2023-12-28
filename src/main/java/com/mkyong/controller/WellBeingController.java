@@ -12,7 +12,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
-
 @RestController()
 @RequestMapping("/android")
 public class WellBeingController {
