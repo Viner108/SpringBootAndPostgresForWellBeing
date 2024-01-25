@@ -56,20 +56,5 @@ public class WellBeingService {
         return repository.save(userHealth);
     }
 
-    public void dataForTable(){
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 365; j++) {
-                for (int k = 0; k <3; k++) {
-                    UserHealth userHealth = new UserHealth();
-                    userHealth.setId(Generators.timeBasedGenerator().generate().node());
-                    LocalDate now = LocalDate.now().minusDays(j + 365 * i);
-                    userHealth.setDate(now);
-                    userHealth.setUserId((long) k);
-                    userHealth.setPressure("120");
-                    userHealth.setHeadAche("1");
-                    repository.save(userHealth);
-                }
-            }
-        }
-    }
+
 }
