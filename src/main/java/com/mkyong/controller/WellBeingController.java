@@ -1,6 +1,7 @@
 package com.mkyong.controller;
 
 import com.fasterxml.uuid.Generators;
+import com.library.dto.UserHealthDto;
 import com.mkyong.model.UserHealth;
 import com.mkyong.service.WellBeingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,13 +80,14 @@ public class WellBeingController {
         return service.findByDate(beforedate1, date2);
     }
 
-    static class UserHealthDto {
-        private Long id;
-        public Long userId;
-        public String pressure;
-        public String headAche;
-        public String date;
-    }
+//    static class UserHealthDto {
+//        private Long id;
+//        public Long userId;
+//        public String pressure;
+//        public String headAche;
+//        public String date;
+//        public String drowsiness;
+//    }
 
     public UserHealth getUserHealth(UserHealthDto body,Long id) {
         UserHealth userHealth = new UserHealth();
@@ -97,6 +99,7 @@ public class WellBeingController {
         userHealth.setUserId(body.userId);
         userHealth.setPressure(body.pressure);
         userHealth.setHeadAche(body.headAche);
+        userHealth.setDrowsiness(body.drowsiness);
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate localDate = LocalDate.parse(body.date, format);
         userHealth.setDate(localDate);

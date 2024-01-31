@@ -95,6 +95,11 @@
             <artifactId>java-uuid-generator</artifactId>
             <version>4.3.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>WellBeingApi</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
     </dependencies>
 
@@ -109,7 +114,19 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <repositories>
 
+<!--        <repository>-->
+<!--            <id>acme-nexus-releases</id>-->
+<!--            <name>acme nexus</name>-->
+<!--            <url>https://nexus.acme.net/content/repositories/releases</url>-->
+<!--        </repository>-->
+        <repository>
+            <id>nexus-maven-releases</id>
+            <name>nexus</name>
+            <url>http://192.168.1.105:8081/repository/maven-snapshots</url>
+        </repository>
+    </repositories>
     <build>
         <plugins>
             <plugin>

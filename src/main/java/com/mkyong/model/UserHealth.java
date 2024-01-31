@@ -19,6 +19,15 @@ public class UserHealth {
 
     private String headAche;
     private LocalDate date;
+    public String drowsiness;
+
+    public String getDrowsiness() {
+        return drowsiness;
+    }
+
+    public void setDrowsiness(String drowsiness) {
+        this.drowsiness = drowsiness;
+    }
 
     public UserHealth() {
     }
